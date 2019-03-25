@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -39,6 +40,14 @@ func main() {
 			"message": message,
 			"nick": nick,
 		})
+	})
+
+	// 	映射参数 表单参数
+	router.POST("/post", func(c *gin.Context) {
+		ids := c.QueryMap("ids")
+		names := c.PostFormMap("names")
+
+		fmt.Println("ids: %v;names: %v",ids,names)
 	})
 
 	router.Run(":8080")
