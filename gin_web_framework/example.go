@@ -42,13 +42,23 @@ func main() {
 		})
 	})
 
-	// 	映射参数 表单参数
-	router.POST("/post", func(c *gin.Context) {
-		ids := c.QueryMap("ids")
-		names := c.PostFormMap("names")
+	// 获取post表单数据(url带查询参数)
 
-		fmt.Println("ids: %v;names: %v",ids,names)
+	router.POST("/post", func(c *gin.Context) {
+		id := c.Query("id")
+		page := c.DefaultQuery("page","0")
+		name := c.PostForm("name")
+		message := c.PostForm("message")
+		fmt.Printf("id: %s; page: %s;name: %s;message: %s",id,page,name,message)
 	})
+
+	//// 	映射参数 表单参数
+	//router.POST("/post", func(c *gin.Context) {
+	//	ids := c.QueryMap("ids")
+	//	names := c.PostFormMap("names")
+	//
+	//	fmt.Printf("ids: %v;names: %v",ids,names)
+	//})
 
 	router.Run(":8080")
 }
