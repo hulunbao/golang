@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 )
 
@@ -44,7 +45,7 @@ func main() {
 
 	// 获取post表单数据(url带查询参数)
 
-	router.POST("/post", func(c *gin.Context) {
+	router.POST("/post_url", func(c *gin.Context) {
 		id := c.Query("id")
 		page := c.DefaultQuery("page","0")
 		name := c.PostForm("name")
@@ -52,13 +53,35 @@ func main() {
 		fmt.Printf("id: %s; page: %s;name: %s;message: %s",id,page,name,message)
 	})
 
-	//// 	映射参数 表单参数
-	//router.POST("/post", func(c *gin.Context) {
-	//	ids := c.QueryMap("ids")
-	//	names := c.PostFormMap("names")
-	//
-	//	fmt.Printf("ids: %v;names: %v",ids,names)
-	//})
+	// 	映射参数 表单参数
+	router.POST("/post", func(c *gin.Context) {
+		ids := c.QueryMap("ids")
+		names := c.PostFormMap("names")
 
+		fmt.Printf("ids: %v;names: %v",ids,names)
+	})
+
+	// 文件上传
+	router.POST("/upload_siglefile", func(c *gin.Context) {
+		//single file
+		file, _ := c.FormFile("file")
+		log.Println(file.Filename)
+
+
+		c.String(http.StatusOK,fmt.Sprintf("'%s' uploaded!",file.Filename))
+	})
+
+	// 多文件上传
+	router.POST("/upload", func(c *gin.Context) {
+		// Multipart form
+		form, _ := c.MultipartForm()
+		files := form.File["upload[]"]
+
+		for _,file := range files{
+			log.Println(file.Filename)
+		}
+
+		c.String(http.StatusOK,fmt.Sprintf("  %d files uploaded!",len(files)))
+		})
 	router.Run(":8080")
-}
+	}
