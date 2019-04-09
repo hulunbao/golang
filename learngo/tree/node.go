@@ -1,16 +1,22 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"golang.org/x/tools/container/intsets" // 导入第三方库 go get golang.org/x/tools/container/intsets
+)
 
+// 定义结构体
 type treeNode struct{
 	value int
 	left, right *treeNode
 }
 
+// 打印树
 func (node treeNode) print()  {
 	fmt.Print(node.value ," ")
 }
 
+// 设置值
 func (node *treeNode) setValue(value int)  {
 	if node == nil {
 		fmt.Println("Setting value to nil " +
@@ -20,6 +26,8 @@ func (node *treeNode) setValue(value int)  {
 	node.value = value
 }
 
+
+// 遍历数
 func (node *treeNode) traverse()  {
 	if node == nil {
 		return
@@ -29,9 +37,20 @@ func (node *treeNode) traverse()  {
 	node.print()
 	node.right.traverse()
 }
+
+// 使用组合扩展已有类型   另一种方法为：定义别名
 func createNode(value int) *treeNode {
 	return &treeNode{value: value}
 }
+
+func testSparse()  {
+	s := intsets.Sparse{}
+	s.Insert(1)
+	s.Insert(100)
+	s.Insert(100000)
+	fmt.Println(s.Has(100))
+}
+
 func main() {
 	var root treeNode
 
@@ -44,4 +63,8 @@ func main() {
 	root.right.left.setValue(4)
 
 	root.traverse()
+
+	testSparse()
+
+
 }
