@@ -6,7 +6,5 @@ func main(){
 
     fmt.Println("hulunlun love caixiaxia!")
     fmt.Println("caixia love hulun!")
-    fmt.Println("caixia is very smart!")
-
+    fmt.Println("hulun is a super super clever!")
 }
-
