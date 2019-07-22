@@ -29,13 +29,20 @@ func (node *treeNode) setValue(value int)  {
 
 // 遍历数
 func (node *treeNode) traverse()  {
-	if node == nil {
+	node.TraverseFunc(func(node *treeNode) {
+		node.print()
+	})
+	fmt.Println()
+}
+
+func (node *treeNode) TraverseFunc(f func(node *treeNode)){
+	if node == nil{
 		return
 	}
 
-	node.left.traverse()
-	node.print()
-	node.right.traverse()
+	node.left.TraverseFunc(f)
+	f(node)
+	node.right.TraverseFunc(f)
 }
 
 // 使用组合扩展已有类型   另一种方法为：定义别名
@@ -65,6 +72,13 @@ func main() {
 	root.traverse()
 
 	testSparse()
+
+	nodeCount := 0
+
+	root.TraverseFunc(func(node *treeNode) {
+		nodeCount++
+	})
+	fmt.Println("nodeCount:",nodeCount)
 
 
 }
