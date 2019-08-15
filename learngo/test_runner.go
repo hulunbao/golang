@@ -10,7 +10,7 @@ import (
 func main() {
 	log.Println("...开始执行任务...")
 
-	timeout := 3 * time.Second
+	timeout := 4 * time.Second
 	r := common.New(timeout)
 
 	r.Add(createTask(), createTask(), createTask())
